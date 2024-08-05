@@ -1,2 +1,1 @@
-# Sociopedia
- 
+# Socialite
