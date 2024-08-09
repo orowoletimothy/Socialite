@@ -6,9 +6,10 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  InputAdornment,
   IconButton,
 } from "@mui/material";
-import { Password } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -54,8 +55,11 @@ const Form = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
-  const isLogin = pageType === "login";
+  const isLogin = pageType === "login"; // Boolean for the pagetype
   const isRegister = pageType === "register";
+  const [showPassword, setShowPassword] = useState("false");
+  const handleShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDown = (event) => event.preventDefault();
 
   const register = async (values, onSubmitProps) => {
     const formData = new FormData();
@@ -207,6 +211,7 @@ const Form = () => {
               </>
             )}
 
+            {/* This part is going to be there regardless (register or login)*/}
             <TextField
               label="Email"
               onBlur={handleBlur}
@@ -219,7 +224,7 @@ const Form = () => {
             />
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
@@ -227,6 +232,22 @@ const Form = () => {
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
               sx={{ gridColumn: "span 2" }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleShowPassword}
+                      aria-label={
+                        showPassword ? "hide password" : "show password"
+                      }
+                      onMouseDown={handleMouseDown}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
 
