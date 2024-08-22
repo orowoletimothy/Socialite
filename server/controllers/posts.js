@@ -4,7 +4,7 @@ import User from "../models/User.js";
 //  create
 export const createPost = async (req, res) => {
   try {
-    const { userId, description, Path } = req.body;
+    const { userId, description, picturePath } = req.body;
     const user = await User.findById(userId);
     const newPost = new Post({
       userId,
@@ -12,14 +12,14 @@ export const createPost = async (req, res) => {
       lastName: user.lastName,
       location: user.location,
       description,
-      userPath: user.Path,
-      Path,
+      userPicturePath: user.picturePath,
+      picturePath,
       likes: {},
       comments: [],
     });
 
     await newPost.save();
-    const post = Post.find(); // grabs all the posts
+    const post = await Post.find(); // grabs all the posts
 
     res.status(201).json(post); // returns all the posts
   } catch (err) {
@@ -30,7 +30,7 @@ export const createPost = async (req, res) => {
 //  READ
 export const getFeedPosts = async (req, res) => {
   try {
-    const post = Post.find();
+    const post = await Post.find();
     res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -40,7 +40,7 @@ export const getFeedPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
-    const post = Post.find({ userId });
+    const post = await Post.find({ userId });
     res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -63,7 +63,7 @@ export const likePost = async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(
       id, // the id of the post to be updated.
       { likes: post.likes }, // this is the property that is being changed/updated.
-      { new: true } // this line returns the updated likes not the original one to the front-end
+      { new: true } // this line returns the updated post not the original one to the front-end
     );
     res.status(200).json(updatedPost);
   } catch (err) {

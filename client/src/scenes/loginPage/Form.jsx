@@ -182,11 +182,11 @@ const Form = () => {
                   border={`1px solid ${palette.neutral.medium}`}
                 >
                   <Dropzone
-                    acceptedFiles=".jpg, .jpeg, .png"
+                    acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
-                    onDrop={(acceptedFiles) => {
-                      setFieldValue("picture", acceptedFiles[0]);
-                    }}
+                    onDrop={(acceptedFiles) =>
+                      setFieldValue("picture", acceptedFiles[0])
+                    }
                   >
                     {({ getRootProps, getInputProps }) => (
                       <Box
@@ -197,7 +197,7 @@ const Form = () => {
                       >
                         <input {...getInputProps()} />
                         {!values.picture ? (
-                          <p>Add picture here</p>
+                          <p>Add Picture Here</p>
                         ) : (
                           <FlexBetween>
                             <Typography>{values.picture.name}</Typography>

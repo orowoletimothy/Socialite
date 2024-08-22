@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       min: 5,
     },
-    Path: {
+    picturePath: {
       type: String,
       default: "",
     },
@@ -42,5 +42,4 @@ const UserSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", UserSchema);
-
 export default User;
